@@ -1,3 +1,4 @@
+import Channel
 
 POLL_NULL = 0x00
 POLL_IN = 0x01
@@ -9,4 +10,7 @@ POLL_NVAL = 0x20
 
 class Poller:
 	def __init__(self):
-		pass
+		self._channelMap = {}
+
+	def has_channel(self, channel):
+		return channel.fd() in self._channelMap
