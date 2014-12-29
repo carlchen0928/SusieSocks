@@ -82,6 +82,7 @@ LOG_COLORS = {
 # Global logger
 g_logger = None
 
+
 class ColoredFormatter(logging.Formatter):
     '''A colorful formatter.'''
 
@@ -93,6 +94,7 @@ class ColoredFormatter(logging.Formatter):
         msg = logging.Formatter.format(self, record)
 
         return LOG_COLORS.get(level_name, '%s') % msg
+
 
 def add_handler(cls, level, fmt, colorful, **kwargs):
     '''Add a configured handler to the global logger.'''
@@ -159,9 +161,9 @@ def init_logger():
 
     g_logger.setLevel(logging.DEBUG)
 
-def set_logger(filename = None, mode = 'a', level='ERROR:DEBUG',
-               fmt = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-               backup_count = 5, limit = 20480, when = None):
+def set_logger(filename=None, mode='a', level='ERROR:DEBUG',
+               fmt='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+               backup_count=5, limit=20480, when=None):
     '''Configure the global logger.'''
     level = level.split(':')
 
@@ -191,4 +193,5 @@ def import_log_funcs():
         setattr(curr_mod, func_name, func)
 
 # Set a default logger
-set_logger()
+print os.getcwd()
+set_logger(os.path.join(os.getcwd(), 'test.log'), 'w')

@@ -13,6 +13,12 @@ class EventLoop:
 		pass
 
 	def loop(self):
+		while not self._quit:
+			self._activeChannels = []
+			try:
+				self._activeChannels = self._poller.poll()
+			except:
+				pass
 		pass
 
 	def quit(self):
