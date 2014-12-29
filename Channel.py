@@ -2,9 +2,10 @@ import socket
 import EventLoop
 import select
 import Poller
+import Logging
 
 NoneEvent = 0
-ReadEvent = Poller.POLL_IN
+ReadEvent = (Poller.POLL_IN | Poller.Poll_PRI)
 WriteEvent = Poller.POLL_OUT
 
 
@@ -44,25 +45,31 @@ class Channel:
 		self._event &= ~WriteEvent
 		self.update()
 
+	def set_revent(self, revent):
+		self._revent = revent
+
 	def fd(self):
 		return self._fd
 
 	def event(self):
 		return self._event
 
+	def is_none_event(self):
+		return self._event is NoneEvent
+
 	def handle_event(self):
 		if self._revent & Poller.POLL_HUP:
-			print 'Channel::handle_event() POLL_HUP'
+			Logging.error('Channel::handle_event() POLL_HUP, fd: %d' % self.fd())
 
 		if self._revent & Poller.POLL_NVAL:
-			print 'Channel::handle_event() POLL_NVAL'
+			Logging.error('Channel::handle_event() POLL_NVAL, fd: %d' % self.fd())
 
 		if self._revent & Poller.POLL_ERR:
-			print 'Channel::handle_event() POLL_ERR'
+			Logging.error('Channel::handle_event() POLL_ERR, fd: %d' % self.fd())
 			if self._errCallback:
 				self._errCallback()
 
-		if self._revent & Poller.POLL_IN:
+		if self._revent & (Poller.POLL_IN | Poller.POLL_PRI):
 			if self._readCallback:
 				self._readCallback()
 
