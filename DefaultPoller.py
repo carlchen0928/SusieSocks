@@ -18,12 +18,14 @@ class DefaultPoller(Poller):
 			Logging.warning('update_channel listen event is none, skip.')
 			return
 
+		self._channelMap[channel.fd()] = channel
 		self._poller.register(channel.fd(), channel.event())
 
 	def remove_channel(self, channel):
 		assert isinstance(channel, Channel)
-		assert channel in self._channelMap
+		assert channel.fd() in self._channelMap
 
+		del self._channelMap[channel.fd()]
 		self._poller.unregister(channel.fd())
 
 	def poll(self, timeout_ms=None):
