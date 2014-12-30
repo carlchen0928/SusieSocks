@@ -81,3 +81,7 @@ class Channel:
 		self._loop.update_channel(self)
 
 
+	def owner_loop(self):
+		return self._loop
+
+

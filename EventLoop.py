@@ -2,6 +2,7 @@ import socket
 import Poller
 import Channel
 import Logging
+import threading
 
 
 class EventLoop:
@@ -11,6 +12,7 @@ class EventLoop:
 		self._poller = Poller()
 		self._activeChannels = []
 		self._currentChannel = None
+		self._tid = threading.current_thread().ident
 		pass
 
 	def loop(self):
@@ -29,18 +31,35 @@ class EventLoop:
 		pass
 
 	def assert_thread(self):
-		pass
+		if not self.in_current_thread():
+			Logging.critical('EventLoop should run in one thread. '
+							 'Current thread is %d, Created thread is %d'
+							 % (threading.current_thread().ident, self._tid))
+
+	def in_current_thread(self):
+		return threading.current_thread().ident == self._tid
 
 	def quit(self):
 		self._quit = True
-		pass
+
+		# maybe this loop have been hang up or into sleep,
+		# in other thread, we want this thread quit, we should
+		# at first to wake him up, and he will run into loop
+		if not self.in_current_thread():
+			wakeup_self()
 
 	def update_channel(self, channel):
-		pass
+		assert self == channel.owner_loop()
+		self.assert_thread()
+		self._poller.update_channel(channel)
 
 	def remove_channel(self, channel):
-		pass
+		assert self == channel.owner_loop()
+		self.assert_thread()
+		self._poller.remove_channel(channel)
 
 	def has_channel(self, channel):
-		pass
+		assert self == channel.owner_loop()
+		self.assert_thread()
+		self._poller.has_channel(channel)
 
