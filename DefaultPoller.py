@@ -2,6 +2,7 @@ import Poller
 import select
 import Channel
 import Logging
+import errno
 
 '''
 default poll() system call
@@ -29,7 +30,17 @@ class DefaultPoller(Poller):
 		self._poller.unregister(channel.fd())
 
 	def poll(self, timeout_ms=None):
-		events = self._poller.poll(timeout_ms)
+		try:
+			events = self._poller.poll(timeout_ms)
+		except (OSError, IOError) as e:
+			if error_from_exception(e) in (errno.EINTR, errno.EPIPE):
+				Logging.error('poll error: %s' % e)
+			else:
+				import traceback
+				Logging.error('poll error: %s' % e)
+				traceback.print_exc()
+				return None
+
 		active_channels = []
 
 		if len(events) == 0:
@@ -46,3 +57,12 @@ class DefaultPoller(Poller):
 		assert channel.fd() == fd
 		channel.set_revent(flag)
 		active_channels.append(channel)
+
+
+def error_from_exception(e):
+	if hasattr(e, 'errno'):
+		return e.errno
+	elif e.args:
+		return e.args[0]
+	else:
+		return None

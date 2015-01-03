@@ -5,7 +5,7 @@ import Poller
 import Logging
 
 NoneEvent = 0
-ReadEvent = (Poller.POLL_IN | Poller.Poll_PRI)
+ReadEvent = (Poller.POLL_IN | Poller.POLL_PRI)
 WriteEvent = Poller.POLL_OUT
 
 
