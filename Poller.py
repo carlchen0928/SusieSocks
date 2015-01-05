@@ -1,5 +1,3 @@
-import Channel
-
 POLL_NULL = 0x00
 POLL_IN = 0x01
 POLL_PRI = 0x02

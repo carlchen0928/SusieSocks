@@ -2,6 +2,8 @@ import select
 import socket
 import threading
 import time
+import KQueuePoller
+import Poller
 
 #
 # server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,14 +29,14 @@ import time
 # 			print 'read'
 # 		else:
 # 			print 'error'
+#
+poll = KQueuePoller.KQueuePoller()
+fdc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('0.0.0.0', 10001)
+fdc.setblocking(False)
+fdc.bind(server_address)
+fd = fdc.fileno()
+fdc.listen(5)
+poll.poll()
 
-class myThread(threading.Thread):
-	def run(self):
-		time.sleep(1)
-		print self.ident
-		print 'haha'
-
-t = myThread()
-t.start()
-print threading.current_thread().ident
-t.join()
+# print Poller.POLL_IN
