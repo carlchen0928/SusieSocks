@@ -30,13 +30,18 @@ import Poller
 # 		else:
 # 			print 'error'
 #
-poll = KQueuePoller.KQueuePoller()
-fdc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('0.0.0.0', 10001)
-fdc.setblocking(False)
-fdc.bind(server_address)
-fd = fdc.fileno()
-fdc.listen(5)
-poll.poll()
+# poll = KQueuePoller.KQueuePoller()
+# fdc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# server_address = ('0.0.0.0', 10001)
+# fdc.setblocking(False)
+# fdc.bind(server_address)
+# fd = fdc.fileno()
+# fdc.listen(5)
+# poll.poll()
 
-# print Poller.POLL_IN
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('127.0.0.1', 9999))
+s.listen(5);
+(conn, addr) = s.accept()
+print (conn, addr)
+
