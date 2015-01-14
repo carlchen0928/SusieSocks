@@ -36,7 +36,7 @@ class Acceptor:
 		self._loop.assert_thread()
 
 		(conn, addr) = self._sock.accept()
-		Logging.debug('accept a new connection %s' % addr)
+		Logging.debug('accept a new connection (%s:%d)' % addr)
 
 		if conn:
 			if self._newconnection_cb:
@@ -49,7 +49,7 @@ class Acceptor:
 		self._listenning = True
 		self._sock.listen(5)
 		self._channel.set_read_enble()
-		Logging.debug('start listen on %s' % self._sock.getpeername())
+		Logging.debug('start listen on %s' % self._sock.getsockname())
 
 	def listenning(self):
 		return self._listenning
