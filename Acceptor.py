@@ -3,22 +3,32 @@ import Logging
 import Channel
 import EventLoop
 
+
 def create_listen_fd():
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
 	sock.setblocking(False)
 	return sock
 
 
-
 class Acceptor:
-	def __init__(self, loop, addr, reuseport):
+	"""
+	Acceptor is used for handle listen fd. Every acceptor have a
+	listen fd, and a channel related to this listen fd. When acceptor
+	initialize, it create a listen fd and bind it, when a connection
+	comes, it call NewConnectionCallback to handle new connection.
+	NewConnectionCallback is set by TcpServer's newConnection method,
+	it handle this channel's readable evenet, accept this fd and setup
+	a new TcpConnection to handle I/O events.
+	"""
+
+	def __init__(self, loop, addr, reuseaddr):
 		self._loop = loop
 		self._sock = create_listen_fd()
-		if reuseport:
-			if hasattr(socket, 'SO_REUSEPORT'):
-				self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+		if reuseaddr:
+			if hasattr(socket, 'SO_REUSEADDR'):
+				self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 			else:
-				Logging.error('system not support SO_REUSEPORT')
+				Logging.error('system not support SO_REUSEADDR')
 
 		assert isinstance(addr, tuple)
 

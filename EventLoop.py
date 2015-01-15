@@ -6,7 +6,6 @@ import threading
 import Eventfd
 
 
-
 class EventLoop:
 	def __init__(self):
 		self._looping = False
@@ -41,16 +40,16 @@ class EventLoop:
 
 			self._currentChannel = None
 			self._event_handling = False
+			self.do_pending()
 
 		self._looping = False
 		Logging.info('EventLoop %d stop looping' % self._tid)
 
-
 	def assert_thread(self):
 		if not self.in_current_thread():
 			Logging.critical('EventLoop should run in one thread. '
-							 'Current thread is %d, Created thread is %d'
-							 % (threading.current_thread().ident, self._tid))
+			                 'Current thread is %d, Created thread is %d'
+			                 % (threading.current_thread().ident, self._tid))
 
 	def in_current_thread(self):
 		return threading.current_thread().ident == self._tid
@@ -58,12 +57,12 @@ class EventLoop:
 	def quit(self):
 		self._quit = True
 
-		# maybe this loop have been hang up or into sleep,
-		# in other thread, we want this thread quit, we should
-		# at first to wake him up, and he will run into loop
-		# TODO: wait until this thread wakeup
-		# if not self.in_current_thread():
-		# 	self.wakeup()
+	# maybe this loop have been hang up or into sleep,
+	# in other thread, we want this thread quit, we should
+	# at first to wake him up, and he will run into loop
+	# TODO: wait until this thread wakeup
+	# if not self.in_current_thread():
+	# 	self.wakeup()
 
 	def update_channel(self, channel):
 		assert self == channel.owner_loop()
@@ -96,12 +95,21 @@ class EventLoop:
 
 	def wake_up(self):
 		Eventfd.eventfd_write(self._eventfd)
-		pass
 
 	def handle_read(self):
 		n = Eventfd.eventfd_read(self._eventfd)
 		if len(n) != 1:
 			Logging.error('EventLoop::handle_read read n bytes')
+
+	def do_pending(self):
+		self._calling_pending = True
+		self._mutex.acquire()
+		functors = self._pending_func
+		self._mutex.release()
+
+		for func in functors:
+			func()
+		self._calling_pending = False
 
 
 

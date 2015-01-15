@@ -40,17 +40,17 @@ import Poller
 # poll.poll()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-s.bind(('127.0.0.1', 9998))
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind(('localhost', 0))
 s.listen(5)
 print s.getsockname()
 
 (conn, addr) = s.accept()
 while True:
-	n = conn.recv(5)
+	n = conn.recv(10)
 	if n == '':
 		break
 	print n, len(n)
 
-print 'xixi (%s, %d)' % addr
+print 'end'
 

@@ -44,6 +44,11 @@ class Channel:
 		self._event &= ~WriteEvent
 		self.update()
 
+	def set_all_disable(self):
+		self._event &= ~WriteEvent
+		self._event &= ~ReadEvent
+		self.update()
+
 	def set_revent(self, revent):
 		self._revent = revent
 
@@ -80,8 +85,10 @@ class Channel:
 		assert isinstance(self._loop, EventLoop)
 		self._loop.update_channel(self)
 
-
 	def owner_loop(self):
 		return self._loop
+
+	def is_writing(self):
+		return self._event & WriteEvent
 
 

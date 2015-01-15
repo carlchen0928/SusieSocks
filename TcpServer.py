@@ -1,6 +1,8 @@
 import EventLoop
 import Acceptor
 import DefaultCallbacks
+import Logging
+
 
 class TcpServer:
 	def __init__(self, loop, server_addr, name, option=True):
@@ -21,8 +23,11 @@ class TcpServer:
 
 	def new_connection(self, conn, addr):
 		self._loop.assert_thread()
-		pass
+		conn_name = self._name + str(addr)
+		Logging.info('TcpServer::new_connection [%s] --> [%s]' % (self._name, conn_name))
+		conn = TcpConnection()
 
+		pass
 
 	def __del__(self):
 		pass
