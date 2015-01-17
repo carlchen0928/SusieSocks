@@ -1,5 +1,7 @@
 import Channel
 import Logging
+import Queue
+import DefaultPoller
 
 BUFFSIZE = 1024
 
@@ -24,8 +26,8 @@ class TcpConnection:
 		self._write_complete_cb = None
 		self._close_cb = None
 
-		self._read_buff = None
-		self._write_buff = None
+		self._read_queue = Queue()
+		self._write_queue = Queue()
 
 		Logging.debug('TcpConnection::__init__ [%s] at [%d]' % (self._name, self._fd))
 

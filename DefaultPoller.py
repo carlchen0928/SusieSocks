@@ -9,6 +9,15 @@ default poll() system call
 '''
 
 
+def error_from_exception(e):
+	if hasattr(e, 'errno'):
+		return e.errno
+	elif e.args:
+		return e.args[0]
+	else:
+		return None
+
+
 class DefaultPoller(Poller):
 	def __init__(self):
 		self._poller = select.poll()
@@ -57,12 +66,3 @@ class DefaultPoller(Poller):
 		assert channel.fd() == fd
 		channel.set_revent(flag)
 		active_channels.append(channel)
-
-
-def error_from_exception(e):
-	if hasattr(e, 'errno'):
-		return e.errno
-	elif e.args:
-		return e.args[0]
-	else:
-		return None
