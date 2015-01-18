@@ -79,15 +79,15 @@ class EventLoop:
 		self.assert_thread()
 		self._poller.has_channel(channel)
 
-	def run_in_loop(self, functor):
+	def run_in_loop(self, functor, **kargs):
 		if self.in_current_thread():
-			functor()
+			functor(kargs)
 		else:
-			self.queue_in_loop(functor)
+			self.queue_in_loop(functor, **kargs)
 
-	def queue_in_loop(self, functor):
+	def queue_in_loop(self, functor, **kargs):
 		self._mutex.acquire()
-		self._pending_func.append(functor)
+		self._pending_func.append([functor, kargs])
 		self._mutex.release()
 
 		if not self.in_current_thread() or self._calling_pending:
@@ -107,8 +107,8 @@ class EventLoop:
 		functors = self._pending_func
 		self._mutex.release()
 
-		for func in functors:
-			func()
+		for [func, kargs] in functors:
+			func(kargs)
 		self._calling_pending = False
 
 
