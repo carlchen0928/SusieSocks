@@ -108,7 +108,10 @@ class EventLoop:
 		self._mutex.release()
 
 		for [func, kargs] in functors:
-			func(kargs)
+			if kargs != {}:
+				func(kargs)
+			else:
+				func()
 		self._calling_pending = False
 
 

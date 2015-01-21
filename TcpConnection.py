@@ -48,7 +48,12 @@ class TcpConnection:
 		"""
 		self._loop.assert_thread()
 		if self._channel.is_writing():
+			try:
+				data = self._write_queue.get_nowait()
+			except Queue.Empty:
+				Logging.info('TcpConnection::handle_write write queue empty')
 
+			n = self._conn.send(data)
 			pass
 
 	def handle_close(self):
@@ -81,7 +86,7 @@ class TcpConnection:
 
 	def send(self, data):
 		if self._loop.in_current_thread():
-			self.__send_in_loop(data)
+			self.__send_in_loop(data=data)
 		else:
 			self._loop.run_in_loop(self.__send_in_loop, data=data)
 
