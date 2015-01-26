@@ -1,21 +1,7 @@
-__author__ = 'yiyu'
+import EchoServer
+import EventLoop
 
 
-class B:
-	def __init__(self, a):
-		self._a = a
-
-	def p(self):
-		print self._a
-
-def cal(func, **kwargs):
-	if func:
-		if kwargs:
-			func(kwargs)
-		else:
-			func()
-
-
-b = B(10)
-
-cal(b.p)
+loop = EventLoop.EventLoop()
+es = EchoServer.EchoServer(loop, ('0.0.0.0', 9999))
+es.start()

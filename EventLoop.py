@@ -1,16 +1,20 @@
-import socket
 import Poller
 import Channel
 import Logging
 import threading
 import Eventfd
+import DefaultPoller
 
 
 class EventLoop:
 	def __init__(self):
+		"""
+
+		:rtype : EventLoop
+		"""
 		self._looping = False
 		self._quit = False
-		self._poller = Poller()
+		self._poller = DefaultPoller.DefaultPoller()
 		self._activeChannels = []
 		self._currentChannel = None
 		self._tid = threading.current_thread().ident
@@ -79,18 +83,15 @@ class EventLoop:
 		self.assert_thread()
 		self._poller.has_channel(channel)
 
-	def run_in_loop(self, functor, **kargs):
+	def run_in_loop(self, functor):
 		if self.in_current_thread():
-			if kargs:
-				functor(kargs)
-			else:
-				functor()
+			functor()
 		else:
-			self.queue_in_loop(functor, **kargs)
+			self.queue_in_loop(functor)
 
-	def queue_in_loop(self, functor, **kargs):
+	def queue_in_loop(self, functor):
 		self._mutex.acquire()
-		self._pending_func.append([functor, kargs])
+		self._pending_func.append(functor)
 		self._mutex.release()
 
 		if not self.in_current_thread() or self._calling_pending:
@@ -110,10 +111,8 @@ class EventLoop:
 		functors = self._pending_func
 		self._mutex.release()
 
-		for [func, kargs] in functors:
-			if kargs != {}:
-				func(kargs)
-			else:
+		for func in functors:
+			if func:
 				func()
 		self._calling_pending = False
 

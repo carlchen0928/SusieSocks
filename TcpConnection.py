@@ -1,6 +1,9 @@
+#coding=gbk
+
 import Channel
 import Logging
 import Queue
+from functools import partial
 
 BUFFSIZE = 1024
 
@@ -12,6 +15,10 @@ class TcpConnection:
 
 	def __init__(self, loop, name, conn, addr):
 
+		"""
+
+		:rtype : TcpConnection
+		"""
 		self._loop = loop
 		self._name = name
 		self._conn = conn
@@ -41,7 +48,7 @@ class TcpConnection:
 		self._loop.assert_thread()
 		res = self._conn.recv(BUFFSIZE)
 		if res:
-			self._message_cb(res)
+			self._message_cb(self, res)
 		else:
 			Logging.info('TcpConnection::handle_read closing socket')
 			Logging.info(self._conn.getpeername())
@@ -55,12 +62,38 @@ class TcpConnection:
 		"""
 		self._loop.assert_thread()
 		if self._channel.is_writing():
+			data = ''
 			try:
 				data = self._write_queue.get_nowait()
 			except Queue.Empty:
 				Logging.info('TcpConnection::handle_write write queue empty')
 
-			n = self._conn.send(data)
+			# n = self._conn.send(data)
+			n = 0
+			try:
+				n = self._conn.send(data)
+			except (OSError, IOError) as e:
+				from DefaultPoller import error_from_exception
+				import errno
+				if error_from_exception(e) == errno.EPIPE:
+					Logging.error('TcpConnection::handle_write errno.EPIPE')
+					return
+				elif error_from_exception(e) == errno.EINTR:
+					Logging.error('TcpConnection::handle_write errno.EINTR')
+				elif error_from_exception(e) in [errno.EWOULDBLOCK, errno.EAGAIN]:
+					Logging.debug('TcpConnection::handle_write errno.EGAIN, EWOULDBLOCK')
+				else:
+					import traceback
+					Logging.error(e)
+					traceback.print_exc()
+					return
+
+			# no error
+			if n >= 0:
+				remaining = len(data) - n
+				# have write finish
+				if remaining == 0 and self._write_complete_cb:
+					self._loop.queue_in_loop(self._write_complete_cb)
 			pass
 
 	def handle_close(self):
@@ -87,7 +120,7 @@ class TcpConnection:
 
 	def connection_established(self):
 		self._loop.assert_thread()
-		self._channel.set_read_enable() # update channel(regist channel into loop)
+		self._channel.set_read_enable()  # update channel(regist channel into loop)
 		if self._connection_cb:
 			self._connection_cb()
 
@@ -101,14 +134,14 @@ class TcpConnection:
 		if self._loop.in_current_thread():
 			self.__send_in_loop(data=data)
 		else:
-			self._loop.run_in_loop(self.__send_in_loop, data=data)
+			_sil = partial(self.__send_in_loop, data)
+			self._loop.run_in_loop(_sil)
 
-	def __send_in_loop(self, **kargs):
+	def __send_in_loop(self, data):
 		self._loop.assert_thread()
-		data = kargs['data']
 		remaining = len(data)
 		# if no thing in output queue, try writing directly
-		# é€šé“æ²¡æœ‰å…³æ³¨å¯å†™äº‹ä»¶ å¹¶ä¸”å‘é€ç¼“å†²é˜Ÿåˆ—æ²¡æœ‰æ•°æ® ç›´æ¥write
+		# Í¨µÀÃ»ÓĞ¹Ø×¢¿ÉĞ´ÊÂ¼ş ²¢ÇÒ·¢ËÍ»º³å¶ÓÁĞÃ»ÓĞÊı¾İ Ö±½Ówrite
 		if not self._channel.is_writing() and self._write_queue.empty():
 			try:
 				n = self._conn.send(data)

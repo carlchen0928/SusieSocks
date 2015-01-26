@@ -1,27 +1,20 @@
+__author__ = 'yiyu'
+
+import Logging
 import Poller
 import select
 import Channel
-import Logging
+from DefaultPoller import error_from_exception
 import errno
 
-'''
-default poll() system call
-'''
 
-
-def error_from_exception(e):
-	if hasattr(e, 'errno'):
-		return e.errno
-	elif e.args:
-		return e.args[0]
-	else:
-		return None
-
-
-class DefaultPoller(Poller.Poller):
+class SelectPoller(Poller.Poller):
 	def __init__(self):
 		Poller.Poller.__init__(self)
-		self._poller = select.poll()
+		# self._poller = select.poll()
+		self._rs = []
+		self._ws = []
+		self._es = []
 
 	def update_channel(self, channel):
 		"""
@@ -44,6 +37,7 @@ class DefaultPoller(Poller.Poller):
 		self._poller.unregister(channel.fd())
 
 	def poll(self, timeout_ms=None):
+		events = []
 		try:
 			events = self._poller.poll(timeout_ms)
 		except (OSError, IOError) as e:

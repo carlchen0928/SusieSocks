@@ -18,6 +18,15 @@ class TcpServer:
 
 		self._acceptor.set_newconnection_cb(self.new_connection)
 
+	def set_connection_cb(self, cb):
+		self._connection_cb = cb
+
+	def set_message_cb(self, cb):
+		self._message_cb = cb
+
+	def set_write_complete_cb(self, cb):
+		pass
+
 	def start(self):
 		if not self._started:
 			assert not self._acceptor.listenning()
@@ -37,13 +46,12 @@ class TcpServer:
 
 		new_conn.set_connection_callback(self._connection_cb)
 		new_conn.set_message_callback(self._message_cb)
-		new_conn.set_write_complete_callback(None)  #FIXME
-		new_conn.set_close_callback(None) #FIXME
+		new_conn.set_write_complete_callback(None)  # FIXME
+		new_conn.set_close_callback(None)  # FIXME
 
 		self._loop.run_in_loop(new_conn.connection_established)
 
 		pass
-
 
 	def remove_connection(self, conn):
 		self._loop.run_in_loop(self.remove_connection_inloop, {'conn': conn})
@@ -55,7 +63,12 @@ class TcpServer:
 		del self._connections[conn.name()]
 
 		loop = conn.get_loop()
-		loop.run_in_loop()
+		loop.run_in_loop(conn.connection_destroyed)
 
 	def __del__(self):
+		self._loop.assert_thread()
+		Logging.info('TcpServer::__del__ [%s]' % self._name)
+
+		for it in self._connections:
+			it.get_loop().run_in_loop(it.connection_destroyed)
 		pass
