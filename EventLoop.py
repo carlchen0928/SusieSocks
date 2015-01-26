@@ -81,7 +81,10 @@ class EventLoop:
 
 	def run_in_loop(self, functor, **kargs):
 		if self.in_current_thread():
-			functor(kargs)
+			if kargs:
+				functor(kargs)
+			else:
+				functor()
 		else:
 			self.queue_in_loop(functor, **kargs)
 

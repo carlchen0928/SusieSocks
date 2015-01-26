@@ -28,7 +28,7 @@ class Channel:
 	def set_err_callback(self, err_cb):
 		self._errCallback = err_cb
 
-	def set_read_enble(self):
+	def set_read_enable(self):
 		self._event |= ReadEvent
 		self.update()
 
@@ -90,5 +90,8 @@ class Channel:
 
 	def is_writing(self):
 		return self._event & WriteEvent
+
+	def remove(self):
+		self._loop.remove_channel(self)
 
 

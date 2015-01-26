@@ -2,35 +2,20 @@ __author__ = 'yiyu'
 
 
 class B:
-	def run1(self, func, **kargs):
-		if kargs != {}:
-			print 'none'
-			func(kargs)
+	def __init__(self, a):
+		self._a = a
 
-class A:
-	def __init__(self, ba):
-		self._st = '111'
-		self._b = ba
+	def p(self):
+		print self._a
 
-	def func(self):
-		self._b.run1(self.run)
-
-	def run(self):
-		print self._st
+def cal(func, **kwargs):
+	if func:
+		if kwargs:
+			func(kwargs)
+		else:
+			func()
 
 
+b = B(10)
 
-
-b = B()
-a = A(b)
-a.func()
-#
-# def func():
-# 	try:
-# 		n = 3
-# 	except:
-# 		print 'haha'
-#
-# 	print n
-#
-# func()
+cal(b.p)

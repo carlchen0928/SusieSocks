@@ -11,6 +11,7 @@ class TcpConnection:
 	"""
 
 	def __init__(self, loop, name, conn, addr):
+
 		self._loop = loop
 		self._name = name
 		self._conn = conn
@@ -28,7 +29,13 @@ class TcpConnection:
 		self._read_queue = Queue.Queue()
 		self._write_queue = Queue.Queue()
 
-		Logging.debug('TcpConnection::__init__ [%s] at [%d]' % (self._name, self._fd))
+		Logging.debug('TcpConnection::__init__ [%s] at [%d]' % (self._name, self._conn.fileno()))
+
+	def name(self):
+		return self._name
+
+	def get_loop(self):
+		return self._loop
 
 	def handle_read(self):
 		self._loop.assert_thread()
@@ -58,7 +65,7 @@ class TcpConnection:
 
 	def handle_close(self):
 		self._loop.assert_thread()
-		self._channel.set_all_diable()
+		self._channel.set_all_disable()
 		if self._close_cb:
 			self._close_cb(self._conn)
 
@@ -83,6 +90,12 @@ class TcpConnection:
 		self._channel.set_read_enable() # update channel(regist channel into loop)
 		if self._connection_cb:
 			self._connection_cb()
+
+	def connection_destroyed(self):
+		self._loop.assert_thread()
+		self._channel.set_all_disable()
+		self._channel.remove()
+		pass
 
 	def send(self, data):
 		if self._loop.in_current_thread():
