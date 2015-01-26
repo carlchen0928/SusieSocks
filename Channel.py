@@ -82,7 +82,7 @@ class Channel:
 				self._writeCallback()
 
 	def update(self):
-		assert isinstance(self._loop, EventLoop)
+		assert isinstance(self._loop, EventLoop.EventLoop)
 		self._loop.update_channel(self)
 
 	def owner_loop(self):

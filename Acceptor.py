@@ -34,7 +34,7 @@ class Acceptor:
 
 		self._sock.bind(addr)
 
-		self._channel = Channel(loop, self._sock.fileno())
+		self._channel = Channel.Channel(loop, self._sock.fileno())
 		self._channel.set_read_callback(self.handle_read)
 		self._newconnection_cb = None
 		self._listenning = False
@@ -58,8 +58,8 @@ class Acceptor:
 		self._loop.assert_thread()
 		self._listenning = True
 		self._sock.listen(5)
-		self._channel.set_read_enble()
-		Logging.debug('start listen on %s' % self._sock.getsockname())
+		self._channel.set_read_enable()
+		Logging.debug('start listen on (%s:%d)' % self._sock.getsockname())
 
 	def listenning(self):
 		return self._listenning

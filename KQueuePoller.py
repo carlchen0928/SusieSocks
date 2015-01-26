@@ -15,6 +15,7 @@ class KQueuePoller(Poller.Poller):
 
 	def __init__(self):
 		self._poller = select.kqueue()
+		self._channelMap = {}
 
 	def __control(self, fd, mode, flag):
 		events = []
@@ -29,7 +30,7 @@ class KQueuePoller(Poller.Poller):
 		pass
 
 	def update_channel(self, channel):
-		assert isinstance(channel, Channel)
+		assert isinstance(channel, Channel.Channel)
 		if channel.is_none_event():
 			Logging.warning('update_channel listen event is none, skip.')
 			return

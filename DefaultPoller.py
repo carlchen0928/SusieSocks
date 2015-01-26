@@ -3,6 +3,7 @@ import select
 import Channel
 import Logging
 import errno
+import KQueuePoller
 
 '''
 default poll() system call
@@ -14,6 +15,16 @@ def error_from_exception(e):
 		return e.errno
 	elif e.args:
 		return e.args[0]
+	else:
+		return None
+
+def get_poller():
+	if hasattr(select, 'kqueue'):
+		return KQueuePoller.KQueuePoller()
+	elif hasattr(select, 'epoll'):
+		return None
+	elif hasattr(select, 'poll'):
+		return DefaultPoller()
 	else:
 		return None
 

@@ -2,7 +2,7 @@ import Poller
 import Channel
 import Logging
 import threading
-import Eventfd
+import EventFd
 import DefaultPoller
 
 
@@ -14,12 +14,12 @@ class EventLoop:
 		"""
 		self._looping = False
 		self._quit = False
-		self._poller = DefaultPoller.DefaultPoller()
+		self._poller = DefaultPoller.get_poller()
 		self._activeChannels = []
 		self._currentChannel = None
 		self._tid = threading.current_thread().ident
 		self._event_handling = False
-		self._eventfd = Eventfd.eventfd_create()
+		self._eventfd = EventFd.eventfd_create()
 		self._event_channel = Channel.Channel(self, self._eventfd.fileno())
 		self._pending_func = []
 		self._mutex = threading.Lock()
@@ -98,10 +98,10 @@ class EventLoop:
 			self.wake_up()
 
 	def wake_up(self):
-		Eventfd.eventfd_write(self._eventfd)
+		EventFd.eventfd_write(self._eventfd)
 
 	def handle_read(self):
-		n = Eventfd.eventfd_read(self._eventfd)
+		n = EventFd.eventfd_read(self._eventfd)
 		if len(n) != 1:
 			Logging.error('EventLoop::handle_read read n bytes')
 

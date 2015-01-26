@@ -1,4 +1,4 @@
-#coding=gbk
+#coding=utf-8
 
 import Channel
 import Logging
@@ -25,8 +25,8 @@ class TcpConnection:
 		self._peer = addr
 		self._channel = Channel.Channel(loop, conn.fileno())
 
-		self._channel.set_read_callback(TcpConnection.handle_read)
-		self._channel.set_write_callback(TcpConnection.handle_write)
+		self._channel.set_read_callback(self.handle_read)
+		self._channel.set_write_callback(self.handle_write)
 
 		self._connection_cb = None
 		self._message_cb = None
@@ -122,7 +122,7 @@ class TcpConnection:
 		self._loop.assert_thread()
 		self._channel.set_read_enable()  # update channel(regist channel into loop)
 		if self._connection_cb:
-			self._connection_cb()
+			self._connection_cb(self)
 
 	def connection_destroyed(self):
 		self._loop.assert_thread()
@@ -141,7 +141,7 @@ class TcpConnection:
 		self._loop.assert_thread()
 		remaining = len(data)
 		# if no thing in output queue, try writing directly
-		# Í¨µÀÃ»ÓÐ¹Ø×¢¿ÉÐ´ÊÂ¼þ ²¢ÇÒ·¢ËÍ»º³å¶ÓÁÐÃ»ÓÐÊý¾Ý Ö±½Ówrite
+		# Í¨ï¿½ï¿½Ã»ï¿½Ð¹ï¿½×¢ï¿½ï¿½Ð´ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½Ò·ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ Ö±ï¿½ï¿½write
 		if not self._channel.is_writing() and self._write_queue.empty():
 			try:
 				n = self._conn.send(data)
