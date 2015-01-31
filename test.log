@@ -1,0 +1,118 @@
+2015-01-29 23:13:14,527 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:13:14,527 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:13:18,254 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63873)
+2015-01-29 23:13:18,255 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63873)]
+2015-01-29 23:13:18,255 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63873)] at [9]
+2015-01-29 23:13:18,255 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:13:18,255 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:13:18,255 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:13:18,255 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:15:10,661 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:15:10,662 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:15:12,147 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63878)
+2015-01-29 23:15:12,147 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63878)]
+2015-01-29 23:15:12,147 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63878)] at [9]
+2015-01-29 23:15:12,147 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:15:12,147 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:15:12,148 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:15:12,148 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:16:25,462 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:16:25,463 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:16:27,741 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63889)
+2015-01-29 23:16:27,741 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63889)]
+2015-01-29 23:16:27,742 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63889)] at [9]
+2015-01-29 23:16:27,742 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:16:27,742 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:16:27,742 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:16:27,742 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:16:27,742 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:16:27,742 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63889)]
+2015-01-29 23:16:27,743 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:16:44,968 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:16:44,968 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:16:46,427 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63892)
+2015-01-29 23:16:46,427 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63892)]
+2015-01-29 23:16:46,427 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63892)] at [9]
+2015-01-29 23:16:46,427 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:16:46,427 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:16:46,428 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:16:46,428 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:16:46,428 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:16:46,428 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63892)]
+2015-01-29 23:16:46,428 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:20:08,748 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:20:08,749 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:20:14,297 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63911)
+2015-01-29 23:20:14,298 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63911)]
+2015-01-29 23:20:14,298 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63911)] at [11]
+2015-01-29 23:20:14,299 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:20:14,300 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:20:14,300 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:20:14,302 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:20:20,509 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:20:38,319 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63911)]
+2015-01-29 23:20:52,930 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:22:35,934 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:22:35,934 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:22:41,031 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63928)
+2015-01-29 23:22:41,032 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63928)]
+2015-01-29 23:22:41,032 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63928)] at [11]
+2015-01-29 23:22:41,033 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:22:41,034 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:22:41,034 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:22:41,036 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:24:05,671 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:24:18,102 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63928)]
+2015-01-29 23:25:15,798 Acceptor.py[line:62] DEBUG start listen on (0.0.0.0:8222)
+2015-01-29 23:25:15,798 EventLoop.py[line:34] DEBUG EventLoop start looping
+2015-01-29 23:25:17,613 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63942)
+2015-01-29 23:25:17,614 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63942)]
+2015-01-29 23:25:17,614 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63942)] at [9]
+2015-01-29 23:25:17,614 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:25:17,614 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:25:17,614 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:25:17,615 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:25:17,615 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63942)]
+2015-01-29 23:25:17,615 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:25:22,941 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63943)
+2015-01-29 23:25:22,941 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63943)]
+2015-01-29 23:25:22,942 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63943)] at [10]
+2015-01-29 23:25:22,942 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:25:22,942 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:25:22,942 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:25:22,942 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:25:22,942 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63943)]
+2015-01-29 23:25:22,942 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:29:11,808 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63964)
+2015-01-29 23:29:11,808 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63964)]
+2015-01-29 23:29:11,808 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63964)] at [11]
+2015-01-29 23:29:11,808 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:29:11,808 EchoServer.py[line:24] INFO Get message: fhdajfsf
+2015-01-29 23:29:11,808 TcpConnection.py[line:64] ERROR [Errno 54] Connection reset by peer
+2015-01-29 23:29:11,809 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:29:11,809 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63964)]
+2015-01-29 23:29:11,809 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:29:16,205 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63965)
+2015-01-29 23:29:16,205 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63965)]
+2015-01-29 23:29:16,205 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63965)] at [12]
+2015-01-29 23:29:16,205 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:29:30,303 Acceptor.py[line:49] DEBUG accept a new connection (127.0.0.1:63966)
+2015-01-29 23:29:30,303 TcpServer.py[line:43] INFO TcpServer::new_connection [echo_server] --> [echo_server('127.0.0.1', 63966)]
+2015-01-29 23:29:30,303 TcpConnection.py[line:39] DEBUG TcpConnection::__init__ [echo_server('127.0.0.1', 63966)] at [13]
+2015-01-29 23:29:30,303 EchoServer.py[line:20] INFO Echo Server on_connection
+2015-01-29 23:29:33,705 EchoServer.py[line:24] INFO Get message: jjjj
+
+2015-01-29 23:29:37,921 EchoServer.py[line:24] INFO Get message: nmnmn,
+
+2015-01-29 23:30:10,894 EchoServer.py[line:24] INFO Get message: mmmmmnn
+
+2015-01-29 23:30:27,077 EchoServer.py[line:24] INFO Get message: fuck!!!!!!!!!!!!
+
+2015-01-29 23:30:46,631 EchoServer.py[line:24] INFO Get message: 
+
+2015-01-29 23:30:55,144 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:30:55,144 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63966)]
+2015-01-29 23:30:55,144 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.
+2015-01-29 23:31:16,479 TcpConnection.py[line:71] INFO TcpConnection::handle_read closing socket
+2015-01-29 23:31:16,479 TcpServer.py[line:65] INFO TcpServer::remove_connection [echo_server] - [echo_server('127.0.0.1', 63965)]
+2015-01-29 23:31:16,479 KQueuePoller.py[line:35] WARNING update_channel listen event is none, skip.

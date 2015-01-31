@@ -6,14 +6,18 @@ def eventfd_create():
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	except socket.error as msg:
+		print msg
 		Logging.error('eventfd_create create error %s' % msg)
 
 	try:
 		s.bind(('localhost', 0))
 	except socket.error as msg:
+		print msg
 		Logging.error('eventfd_create bind error %s' % msg)
 
 	s.listen(5)
+
+	return s
 
 
 def eventfd_read(sock):

@@ -14,8 +14,8 @@ class KQueuePoller(Poller.Poller):
 	MAX_EVENTS = 1024
 
 	def __init__(self):
+		Poller.Poller.__init__(self)
 		self._poller = select.kqueue()
-		self._channelMap = {}
 
 	def __control(self, fd, mode, flag):
 		events = []
@@ -39,7 +39,7 @@ class KQueuePoller(Poller.Poller):
 		self.__control(channel.fd(), channel.event(), select.KQ_EV_ADD)
 
 	def remove_channel(self, channel):
-		assert isinstance(channel, Channel)
+		assert isinstance(channel, Channel.Channel)
 		assert channel.fd() in self._channelMap
 
 		del self._channelMap[channel.fd()]

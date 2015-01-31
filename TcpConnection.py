@@ -46,12 +46,29 @@ class TcpConnection:
 
 	def handle_read(self):
 		self._loop.assert_thread()
-		res = self._conn.recv(BUFFSIZE)
+
+		res = None
+		try:
+			res = self._conn.recv(BUFFSIZE)
+		except (OSError, IOError) as e:
+			from DefaultPoller import error_from_exception
+			import errno
+			if error_from_exception(e) == errno.EPIPE:
+				Logging.error('TcpConnection::handle_read errno.EPIPE')
+			elif error_from_exception(e) == errno.EINTR:
+				Logging.error('TcpConnection::handle_read errno.EINTR')
+			elif error_from_exception(e) in [errno.EWOULDBLOCK, errno.EAGAIN]:
+				Logging.debug('TcpConnection::handle_read errno.EGAIN, EWOULDBLOCK')
+			else:
+				import traceback
+				Logging.error(e)
+				traceback.print_exc()
+				return
+
 		if res:
 			self._message_cb(self, res)
 		else:
 			Logging.info('TcpConnection::handle_read closing socket')
-			Logging.info(self._conn.getpeername())
 			self.handle_close()
 
 	def handle_write(self):
@@ -98,9 +115,8 @@ class TcpConnection:
 
 	def handle_close(self):
 		self._loop.assert_thread()
-		self._channel.set_all_disable()
 		if self._close_cb:
-			self._close_cb(self._conn)
+			self._close_cb(self)
 
 	def handle_error(self):
 		# TODO
@@ -126,8 +142,8 @@ class TcpConnection:
 
 	def connection_destroyed(self):
 		self._loop.assert_thread()
-		self._channel.set_all_disable()
 		self._channel.remove()
+		self._channel.set_all_disable()
 		pass
 
 	def send(self, data):

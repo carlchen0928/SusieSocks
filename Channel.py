@@ -17,7 +17,7 @@ class Channel:
 		self._writeCallback = None
 		self._errCallback = None
 		self._revent = 0
-		self._event = -1
+		self._event = 0
 
 	def set_read_callback(self, read_cb):
 		self._readCallback = read_cb

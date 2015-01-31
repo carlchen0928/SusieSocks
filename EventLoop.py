@@ -40,6 +40,9 @@ class EventLoop:
 			self._event_handling = True
 			for chn in self._activeChannels:
 				self._currentChannel = chn
+				# print chn._revent
+				# print chn._event
+				# print chn._fd
 				self._currentChannel.handle_event()
 
 			self._currentChannel = None

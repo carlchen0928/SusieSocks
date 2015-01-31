@@ -3,6 +3,7 @@ import Acceptor
 import DefaultCallbacks
 import Logging
 import TcpConnection
+from functools import partial
 
 
 class TcpServer:
@@ -47,15 +48,17 @@ class TcpServer:
 		new_conn.set_connection_callback(self._connection_cb)
 		new_conn.set_message_callback(self._message_cb)
 		new_conn.set_write_complete_callback(None)  # FIXME
-		new_conn.set_close_callback(None)  # FIXME
+
+		# cb = partial(self.remove_connection, conn)
+		new_conn.set_close_callback(self.remove_connection)
 
 		self._loop.run_in_loop(new_conn.connection_established)
 
 		pass
 
 	def remove_connection(self, conn):
-		self._loop.run_in_loop(self.remove_connection_inloop, {'conn': conn})
-		pass
+		func = partial(self.remove_connection_inloop, conn)
+		self._loop.run_in_loop(func)
 
 	def remove_connection_inloop(self, conn):
 		self._loop.assert_thread()

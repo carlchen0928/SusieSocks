@@ -20,5 +20,6 @@ def errno_from_exception(e):
 		return None
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('localhost', 0))
-s.connect(('127.0.0.1', 9999))
+s.connect(('127.0.0.1', 8222))
+s.send('fhdajfsf')
+s.shutdown(socket.SHUT_WR)
