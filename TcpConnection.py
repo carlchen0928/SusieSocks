@@ -44,6 +44,14 @@ class TcpConnection:
 	def get_loop(self):
 		return self._loop
 
+	def shutdown(self):
+		self._loop.run_in_loop(self.shutdown_in_loop)
+
+	def shutdown_in_loop(self):
+		if not self._channel.is_writing():
+			import socket
+			self._conn.shutdown(socket.SHUT_WR)
+
 	def handle_read(self):
 		self._loop.assert_thread()
 
@@ -108,10 +116,17 @@ class TcpConnection:
 			# no error
 			if n >= 0:
 				remaining = len(data) - n
+
+				if remaining > 0:
+					self._write_queue.put(data[n:])
+
+				# nothing in write queue, stop listen write event
+				if self._write_queue.empty():
+					self._channel.set_write_disable()
+
 				# have write finish
 				if remaining == 0 and self._write_complete_cb:
 					self._loop.queue_in_loop(self._write_complete_cb)
-			pass
 
 	def handle_close(self):
 		self._loop.assert_thread()
@@ -157,7 +172,6 @@ class TcpConnection:
 		self._loop.assert_thread()
 		remaining = len(data)
 		# if no thing in output queue, try writing directly
-		# ͨ��û�й�ע��д�¼� ���ҷ��ͻ������û����� ֱ��write
 		if not self._channel.is_writing() and self._write_queue.empty():
 			try:
 				n = self._conn.send(data)

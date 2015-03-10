@@ -2,6 +2,7 @@ __author__ = 'yiyu'
 
 
 import TcpServer
+import EventLoop
 import Logging
 
 
@@ -24,3 +25,10 @@ class EchoServer:
 		Logging.info('Get message: %s' % buff)
 		conn.send(buff)
 		pass
+
+
+
+loop = EventLoop.EventLoop()
+es = EchoServer(loop, ('0.0.0.0', 8222))
+es.start()
+loop.loop()

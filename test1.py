@@ -19,7 +19,10 @@ def errno_from_exception(e):
 	else:
 		return None
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('127.0.0.1', 8222))
-s.send('fhdajfsf')
-s.shutdown(socket.SHUT_WR)
+
+for i in range(1, 100000):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(('127.0.0.1', 8222))
+	data = s.recv(1024)
+	print data
+	s.close()
